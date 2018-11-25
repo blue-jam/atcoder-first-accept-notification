@@ -24,3 +24,15 @@ export const getNewSolvedProblems = (currentSolvedProblems: Set<string>, lastSol
 
     return new Set(newSolvedProblems);
 };
+
+export const generateNotificationMessage = (newSolvedProblems: Set<string>, taskMap: Map<string, string>) => {
+    if (newSolvedProblems.size === 0) {
+        return null;
+    }
+
+    const solvedList = Array.from(newSolvedProblems)
+        .map((screenName) => taskMap.get(screenName))
+        .join(', ');
+
+    return `There are first accepts.\nProblem: ${solvedList}\nPlease check standings.`;
+};

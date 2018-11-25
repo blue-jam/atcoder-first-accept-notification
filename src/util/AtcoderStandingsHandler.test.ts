@@ -1,4 +1,9 @@
-import {getNewSolvedProblems, getSolvedProblems, IContestantStanding} from "./AtcoderStandingsHandler";
+import {
+    generateNotificationMessage,
+    getNewSolvedProblems,
+    getSolvedProblems,
+    IContestantStanding
+} from "./AtcoderStandingsHandler";
 
 test('Collect all solved problems. Status = 1 denotes AC submission.', () => {
     const contestantStandings: IContestantStanding[] = [
@@ -26,4 +31,24 @@ test('Collect new solved problems based on the last solved problems.', () => {
 
     expect(getNewSolvedProblems(after, before))
         .toEqual(new Set(['c']));
+});
+
+test('Generate notification message from new solved problems set.', () => {
+    const solvedProblems = new Set(['problem-a', 'problem-b']);
+    const tasks = new Map([['problem-a', 'A'], ['problem-b', 'B']]);
+
+    expect(generateNotificationMessage(solvedProblems, tasks))
+        .toEqual(
+            'There are first accepts.\n' +
+            'Problem: A, B\n' +
+            'Please check standings.'
+        );
+});
+
+test('Return null message if there is no new solved problems.', () => {
+    const solvedProblems = new Set();
+    const tasks = new Map([['problem-a', 'A'], ['problem-b', 'B']]);
+
+    expect(generateNotificationMessage(solvedProblems, tasks))
+        .toEqual(null);
 });
