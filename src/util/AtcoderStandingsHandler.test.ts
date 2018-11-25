@@ -1,4 +1,4 @@
-import {getSolvedProblems, IContestantStanding} from "./AtcoderStandingsHandler";
+import {getNewSolvedProblems, getSolvedProblems, IContestantStanding} from "./AtcoderStandingsHandler";
 
 test('Collect all solved problems. Status = 1 denotes AC submission.', () => {
     const contestantStandings: IContestantStanding[] = [
@@ -18,4 +18,12 @@ test('Collect all solved problems. Status = 1 denotes AC submission.', () => {
     ];
     expect(getSolvedProblems(contestantStandings))
         .toEqual(new Set(['one-ac-with-one-attempt', 'one-ac-with-two-attempt']));
+});
+
+test('Collect new solved problems based on the last solved problems.', () => {
+    const before = new Set(['a', 'b']);
+    const after = new Set(['a', 'c']);
+
+    expect(getNewSolvedProblems(after, before))
+        .toEqual(new Set(['c']));
 });

@@ -17,3 +17,10 @@ export const getSolvedProblems = (contestantStandings: IContestantStanding[]) =>
 
     return solvedProblems;
 };
+
+export const getNewSolvedProblems = (currentSolvedProblems: Set<string>, lastSolvedProblems: Set<string>) => {
+    const newSolvedProblems = Array.from(currentSolvedProblems)
+        .filter(problem => !lastSolvedProblems.has(problem));
+
+    return new Set(newSolvedProblems);
+};
