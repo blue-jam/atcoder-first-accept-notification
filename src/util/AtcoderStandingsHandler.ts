@@ -6,6 +6,11 @@ export interface IContestantStanding {
     TaskResults: { [s: string]: ITaskResult };
 }
 
+export const fetchStandingsJson = (contestId: string) => {
+    return fetch(`https://beta.atcoder.jp/contests/${contestId}/standings/json`)
+        .then((response) => response.json())
+};
+
 export const getSolvedProblems = (contestantStandings: IContestantStanding[]) => {
     const solvedProblems = new Set();
 
