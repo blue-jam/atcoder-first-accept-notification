@@ -7,7 +7,7 @@ export interface IContestantStanding {
 }
 
 export const fetchStandingsJson = (contestId: string) => {
-    return fetch(`https://beta.atcoder.jp/contests/${contestId}/standings/json`)
+    return fetch(`https://cors-anywhere.herokuapp.com/https://beta.atcoder.jp/contests/${contestId}/standings/json`)
         .then((response) => response.json())
 };
 
