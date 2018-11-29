@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import {fetchStandingsJson, getSolvedProblems} from "./util/AtcoderStandingsHandler";
+import {fetchStandingsJson, getSolvedProblems, INTERVAL_MILLI_SEC} from "./util/AtcoderStandingsHandler";
+import {sleep} from "./util/utilities";
 
 interface IState {
     tasksMap: Map<string, string>;
@@ -18,19 +19,21 @@ class App extends React.Component<any, IState> {
     }
 
     public render() {
-        const onWatchClick = () => {
-            fetchStandingsJson('code-thanks-festival-2018')
-                .then((json) => {
-                    const tasksMap = new Map();
+        const onWatchClick = async () => {
+            while (true) {
+                const json = await fetchStandingsJson('code-thanks-festival-2018');
+                const tasksMap = new Map();
 
-                    Object.keys(json.TaskInfo)
-                        .forEach(
-                            (key) => tasksMap.set(json.TaskInfo[key].TaskScreenName, json.TaskInfo[key].Assignment)
-                        );
-                    const solvedProblems = getSolvedProblems(json.StandingsData);
+                Object.keys(json.TaskInfo).forEach(
+                    (key) => tasksMap.set(json.TaskInfo[key].TaskScreenName, json.TaskInfo[key].Assignment)
+                );
 
-                    this.setState({tasksMap, solvedProblems});
-                });
+                const solvedProblems = getSolvedProblems(json.StandingsData);
+
+                this.setState({tasksMap, solvedProblems});
+
+                await sleep(INTERVAL_MILLI_SEC, null);
+            }
         };
 
         return (

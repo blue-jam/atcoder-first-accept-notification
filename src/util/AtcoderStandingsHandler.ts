@@ -6,6 +6,8 @@ export interface IContestantStanding {
     TaskResults: { [s: string]: ITaskResult };
 }
 
+export const INTERVAL_MILLI_SEC = 60000;
+
 export const fetchStandingsJson = (contestId: string) => {
     return fetch(`https://cors-anywhere.herokuapp.com/https://beta.atcoder.jp/contests/${contestId}/standings/json`)
         .then((response) => response.json())
