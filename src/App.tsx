@@ -9,6 +9,8 @@ interface IState {
 }
 
 class App extends React.Component<any, IState> {
+    private contestIdRef = React.createRef<HTMLInputElement>();
+
     constructor(props: any) {
         super(props);
 
@@ -20,8 +22,14 @@ class App extends React.Component<any, IState> {
 
     public render() {
         const onWatchClick = async () => {
+            if (this.contestIdRef.current === null) {
+                return;
+            }
+
+            const contestId = this.contestIdRef.current.value;
+
             while (true) {
-                const json = await fetchStandingsJson('code-thanks-festival-2018');
+                const json = await fetchStandingsJson(contestId);
                 const tasksMap = new Map();
 
                 Object.keys(json.TaskInfo).forEach(
@@ -42,7 +50,7 @@ class App extends React.Component<any, IState> {
                     <h1 className="App-title">AtCoder First Accept Notification</h1>
                 </header>
                 <div>
-                    <input type="text" name="contestId"/>
+                    <input type="text" name="contestId" ref={this.contestIdRef}/>
                     <button type="button" onClick={onWatchClick}>watch</button>
                     <button type="button">stop</button>
                     <button type="button">reset</button>
