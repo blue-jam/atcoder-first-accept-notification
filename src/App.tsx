@@ -1,6 +1,12 @@
 import * as React from 'react';
 import './App.css';
-import {fetchStandingsJson, getSolvedProblems, INTERVAL_MILLI_SEC} from "./util/AtcoderStandingsHandler";
+import {
+    fetchStandingsJson,
+    generateNotificationMessage,
+    getNewSolvedProblems,
+    getSolvedProblems,
+    INTERVAL_MILLI_SEC
+} from "./util/AtcoderStandingsHandler";
 import {sleep} from "./util/utilities";
 
 interface IState {
@@ -21,8 +27,8 @@ class App extends React.Component<any, IState> {
     }
 
     public render() {
-        const onWatchClick = async () => {
-            if (this.contestIdRef.current === null) {
+        const fetchAndNotifyFirstAccepts = async () => {
+            if (this.contestIdRef.current === null || Notification.permission !== 'granted') {
                 return;
             }
 
@@ -37,11 +43,21 @@ class App extends React.Component<any, IState> {
                 );
 
                 const solvedProblems = getSolvedProblems(json.StandingsData);
+                const newAccepts = getNewSolvedProblems(solvedProblems, this.state.solvedProblems);
+                const notificationMessage = generateNotificationMessage(newAccepts, tasksMap);
+
+                if (notificationMessage !== null && Notification.permission === 'granted') {
+                    new Notification(notificationMessage);
+                }
 
                 this.setState({tasksMap, solvedProblems});
 
                 await sleep(INTERVAL_MILLI_SEC, null);
             }
+        };
+
+        const onWatchClick = async () => {
+            Notification.requestPermission(fetchAndNotifyFirstAccepts);
         };
 
         return (
