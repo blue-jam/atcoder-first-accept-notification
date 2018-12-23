@@ -47,7 +47,7 @@ class App extends React.Component<any, IState> {
                 const notificationMessage = generateNotificationMessage(newAccepts, tasksMap);
 
                 if (notificationMessage !== null && Notification.permission === 'granted') {
-                    new Notification(notificationMessage);
+                    new Notification(notificationMessage);  // eslint-disable-line no-unused-expression
                 }
 
                 this.setState({tasksMap, solvedProblems});
