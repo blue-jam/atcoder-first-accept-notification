@@ -15,7 +15,7 @@ importScripts("/atcoder-first-accept-notification/workbox-v3.6.3/workbox-sw.js")
 workbox.setConfig({modulePathPrefix: "/atcoder-first-accept-notification/workbox-v3.6.3"});
 
 importScripts(
-  "/atcoder-first-accept-notification/precache-manifest.3abe444c848942d52d3f7a13bb1afca8.js"
+  "/atcoder-first-accept-notification/precache-manifest.a73f4620e3a8ebd91be52d08478efd02.js"
 );
 
 workbox.clientsClaim();

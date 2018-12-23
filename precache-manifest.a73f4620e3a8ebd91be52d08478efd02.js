@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/atcoder-first-accept-notification/static/css/main.1cf8faa8.chunk.css"
   },
   {
-    "revision": "9289704449292cb6b73b66ab521ab539",
+    "revision": "e946119e978b150aa04946904ba8bc3b",
     "url": "/atcoder-first-accept-notification/index.html"
   }
 ];
